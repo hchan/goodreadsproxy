@@ -83,7 +83,14 @@ String oauth_token = htmlPage.getUrl().toString();
 																		// step
 																		// 2
 
-		System.out.println(accessToken);
+		makeRequest(service, accessToken);
+	}
+
+	private static void makeRequest(OAuth10aServiceImpl service, Token accessToken) {
+		OAuthRequest request = new OAuthRequest(Verb.GET, "https://www.goodreads.com/api/auth_user");
+		service.signRequest(accessToken, request); // the access token from step 4
+		Response response = request.send();
+		System.out.println(response.getBody());
 	}
 
 	private static Token getAccessToken(OAuth10aServiceImpl service, DefaultApi10a provider, Token requestToken, Verifier v) {
