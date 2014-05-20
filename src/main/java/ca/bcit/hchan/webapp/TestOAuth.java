@@ -40,7 +40,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.SubmittableElement;
 
 public class TestOAuth {
-
+	//https://github.com/fernandezpablo85/scribe-java/wiki/Getting-Started
 	public static void main(String[] args) throws ClientProtocolException, IOException {
 		
 		String key = "kBalTLaEbuAf3GWqfN3nw";
@@ -87,7 +87,7 @@ String oauth_token = htmlPage.getUrl().toString();
 	}
 
 	private static void makeRequest(OAuth10aServiceImpl service, Token accessToken) {
-		OAuthRequest request = new OAuthRequest(Verb.GET, "https://www.goodreads.com/api/auth_user");
+		OAuthRequest request = new OAuthRequest(Verb.GET, "https://www.goodreads.com/api/auth_user"); // arbitrary request
 		service.signRequest(accessToken, request); // the access token from step 4
 		Response response = request.send();
 		System.out.println(response.getBody());
