@@ -7,9 +7,10 @@ import java.util.*;
 
 public class GoodreadsApi extends DefaultApi10a
 {
-  private static final String AUTHORIZE_URL = "https://www.goodreads.com/oauth/authorize?oauth_token=%s";
-  private static final String REQUEST_TOKEN_URL = "http://www.goodreads.com/oauth/request_token";
-
+  public static final String AUTHORIZE_URL = "https://www.goodreads.com/oauth/authorize?oauth_token=%s";
+  public static final String REQUEST_TOKEN_URL = "http://www.goodreads.com/oauth/request_token";
+  public static final String ACCESS_TOKEN_URL = "http://www.goodreads.com/oauth/access_token";
+  
   private final Set<String> scopes;
 
   public GoodreadsApi()
@@ -25,7 +26,7 @@ public class GoodreadsApi extends DefaultApi10a
   @Override
   public String getAccessTokenEndpoint()
   {
-    return "https://api.linkedin.com/uas/oauth/accessToken";
+    return "http://www.goodreads.com/oauth/accessToken";
   }
 
   @Override
@@ -55,5 +56,6 @@ public class GoodreadsApi extends DefaultApi10a
     Set<String> scopeSet = new HashSet<String>(Arrays.asList(scopes));
     return new GoodreadsApi(scopeSet);
   }
+  
   
 }
