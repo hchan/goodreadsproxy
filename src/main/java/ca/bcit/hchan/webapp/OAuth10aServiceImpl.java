@@ -57,6 +57,7 @@ public class OAuth10aServiceImpl implements OAuthService
     addOAuthParams(request, OAuthConstants.EMPTY_TOKEN);
     appendSignature(request);
 
+  
     config.log("sending request...");
     Response response = request.send(tuner);
     String body = response.getBody();
