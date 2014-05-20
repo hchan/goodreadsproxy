@@ -98,7 +98,7 @@ String oauth_token = htmlPage.getUrl().toString();
 		 OAuthRequest request = new OAuthRequest(Verb.POST, GoodreadsApi.ACCESS_TOKEN_URL);
 		    request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
 		    //request.addOAuthParameter(OAuthConstants.VERIFIER, v.getValue());
-		    request.addOAuthParameter("oauth_verifier", v.getValue());
+		    //request.addOAuthParameter("oauth_verifier", v.getValue());
 		 
 		    service.addOAuthParams(request, requestToken);
 		    service.appendSignature(request);
