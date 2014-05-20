@@ -26,7 +26,7 @@ public class GoodreadsApi extends DefaultApi10a
   @Override
   public String getAccessTokenEndpoint()
   {
-    return "http://www.goodreads.com/oauth/accessToken";
+    return ACCESS_TOKEN_URL;
   }
 
   @Override

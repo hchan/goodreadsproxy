@@ -75,14 +75,15 @@ String oauth_token = htmlPage.getUrl().toString();
 		Verifier v = new Verifier(oauth_token);
 	
 	
-		Token accessToken = getAccessToken(service, provider, requestToken); // the
-																		// requestToken
-																		// you
-																		// had
-																		// from
-																		// step
-																		// 2
+//		Token accessToken = getAccessToken(service, provider, requestToken); // the
+//																		// requestToken
+//																		// you
+//																		// had
+//																		// from
+//																		// step
+//																		// 2
 
+		Token accessToken = service.getAccessToken(requestToken, new Verifier(""));
 		makeRequest(service, accessToken);
 	}
 
@@ -95,7 +96,7 @@ String oauth_token = htmlPage.getUrl().toString();
 
 	private static Token getAccessToken(OAuth10aServiceImpl service, DefaultApi10a provider, Token requestToken) {
 	
-		 OAuthRequest request = new OAuthRequest(Verb.POST, GoodreadsApi.ACCESS_TOKEN_URL);
+		 OAuthRequest request = new OAuthRequest(Verb.GET, GoodreadsApi.ACCESS_TOKEN_URL);
 		    request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
 		    //request.addOAuthParameter(OAuthConstants.VERIFIER, v.getValue());
 		    //request.addOAuthParameter("oauth_verifier", v.getValue());
