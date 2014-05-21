@@ -29,9 +29,10 @@ public class AllFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) servletrequest;
 		HttpServletResponse resp = (HttpServletResponse) servletresponse;
-		resp.addHeader("Access-Control-Allow-Origin", "*"); // CORS
-		resp.addHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-		resp.addHeader("Access-Control-Allow-Headers", "Content-Type");
+		resp.setHeader("Access-Control-Allow-Origin", "*"); // CORS
+		resp.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+		resp.setHeader("Access-Control-Request-Headers", "authorization,x-requested-with");
+		//resp.addHeader("Access-Control-Allow-Headers", "Content-Type");
 		HttpSession session = req.getSession();
 		if (req.getRequestURI().endsWith("/")) {
 			resp.sendRedirect(req.getRequestURI() + "index.html");
