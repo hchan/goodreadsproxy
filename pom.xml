@@ -136,10 +136,15 @@
 			<artifactId>spring-context</artifactId>
 			<version>3.2.4.RELEASE</version>
 		</dependency>
-	<dependency>
+		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>jasper</artifactId>
+			<version>6.0.39</version>
 		</dependency>
 
 	</dependencies>
@@ -163,6 +168,25 @@
 							<outputDirectory>webapps</outputDirectory>
 							<warName>ROOT</warName>
 						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<delete
+											file="${project.build.outputDirectory}/environment.properties" />
+										<copy file="src/main/resources/environment.prd.properties"
+											tofile="${project.build.outputDirectory}/environment.properties" />
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 			</build>

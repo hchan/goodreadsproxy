@@ -34,9 +34,7 @@ public class TestOAuth {
 	// https://github.com/fernandezpablo85/scribe-java/wiki/Getting-Started
 	public static void main(String[] args) throws ClientProtocolException,
 			IOException {
-		OAuthService service = new ServiceBuilder()
-				.provider(GoodreadsApi.class).apiKey(GoodreadsApi.key)
-				.apiSecret(GoodreadsApi.secret).build();
+		OAuthService service = App.getGoodreadsService();
 		Token requestToken = service.getRequestToken();
 
 		String authUrl = service.getAuthorizationUrl(requestToken);
