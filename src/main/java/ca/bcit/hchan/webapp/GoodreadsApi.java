@@ -10,6 +10,12 @@ public class GoodreadsApi extends DefaultApi10a
   public static final String AUTHORIZE_URL = "https://www.goodreads.com/oauth/authorize?oauth_token=%s";
   public static final String REQUEST_TOKEN_URL = "http://www.goodreads.com/oauth/request_token";
   public static final String ACCESS_TOKEN_URL = "http://www.goodreads.com/oauth/access_token";
+  /*
+  public static final String key = "kBalTLaEbuAf3GWqfN3nw";
+  public static final String secret = "zP2xpCd5Vu8aGpNw67U3PoYZOUf1QvzFPcEB8Bt3Fj0";
+  */
+  public static final String key = "nHz6fL8crHn1aOSKvZEcDw";
+  public static final String secret = "xq1T1BC5JMKYo7oSOXvW0aIRg39irS1QOxBK1bh0Fc";
   
   private final Set<String> scopes;
 
