@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ca.bcit.hchan.webapp.App;
 
 @Controller
-@RequestMapping("/goodreadsproxy")
+@RequestMapping("/goodreads")
 public class GoodreadsController {
 
 	@RequestMapping("/authenticate")
