@@ -31,7 +31,7 @@ public class GoodreadsController {
 		try {
 			resp.sendRedirect(authUrl);
 		} catch (IOException e) {
-			App.log.error("", e);
+			App.log.error("", e); 
 		}
 		
 
