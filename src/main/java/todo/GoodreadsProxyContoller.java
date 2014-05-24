@@ -47,13 +47,7 @@ public class GoodreadsProxyContoller {
 		requestURLNormalized = requestURLNormalized.substring(requestURLNormalized.indexOf("/goodreadsproxy/"));
 		requestURLNormalized = requestURLNormalized.replace("/goodreadsproxy/", "");
 		log.info("requestURLNormalized:" + requestURLNormalized);
-		/*
-		HttpClient client = HttpClientBuilder.create().build();
-		String url = "http://" + req.getPathInfo().replace("/goodreadsproxy/", "");
-		if (req.getQueryString()!=null) {
-			url += "?" + req.getQueryString();
-		}
-		*/
+		
 		OAuthService service = App.getGoodreadsService();
 		Token requestToken = (Token) App.getSessionMap(req).get("requestToken");
 		
@@ -78,10 +72,19 @@ public class GoodreadsProxyContoller {
 			int indexOfThirdSlash = redirectURL.indexOf("/", "http://".length());
 			redirectURL = redirectURL.substring(0, indexOfThirdSlash);
 			redirectURL +=  req.getContextPath() + AUTHENTICATE_URL;
+			
+		
 			log.info("redirectURL: " + redirectURL);
 			req.setAttribute("oauthResponse", "REDIRECT: " + redirectURL);
 			RequestDispatcher dispatcher = req.getServletContext().getRequestDispatcher(RETURN_JSP);
+			
 			dispatcher.forward(req,resp);
+			/*
+			 * resp.setStatus(302);
+			resp.setHeader( "Location", redirectURL );
+			resp.setHeader( "Connection", "close" );
+			 */
+			
 		}
 		
 	}
