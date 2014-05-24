@@ -39,9 +39,9 @@ public class TestOAuth {
 
 		String authUrl = service.getAuthorizationUrl(requestToken);
 		System.out.println(authUrl);
-
+try {
 		HtmlPage htmlPage = doOOBVerification(authUrl);
-		
+} catch (Exception e) {}	
 		/*
 		System.out.println(htmlPage.getUrl());
 		
@@ -65,6 +65,9 @@ public class TestOAuth {
 		Token accessToken = service.getAccessToken(requestToken, new Verifier(
 				""));
 		 makeRequest(service, accessToken);
+		 
+		// should not create another accessToken, otherwise it will be invalidated
+			 makeRequest(service, accessToken);
 	}
 
 	private static void makeRequest(OAuthService service,

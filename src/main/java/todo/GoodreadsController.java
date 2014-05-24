@@ -22,11 +22,11 @@ public class GoodreadsController {
 			HttpServletRequest req,
 			HttpServletResponse resp,
 			@RequestParam(value = "callbackURL", required = true, defaultValue = "") String callbackURL) {
-		App.log.info("callbackURL: " + callbackURL);
-		req.getSession().setAttribute("callbackURL", callbackURL);
+	
+		App.getSessionMap(req).put("callbackURL", callbackURL);
 		OAuthService service = App.getGoodreadsService();
 		Token requestToken = service.getRequestToken();
-		req.getSession().setAttribute("requestToken", requestToken);
+		App.getSessionMap(req).put("requestToken", requestToken);
 		String authUrl = service.getAuthorizationUrl(requestToken);
 		try {
 			resp.sendRedirect(authUrl);
@@ -41,7 +41,7 @@ public class GoodreadsController {
 	public void authorizeOK(
 			HttpServletRequest req,
 			HttpServletResponse resp) {
-		req.getSession().setAttribute("authorizeOK", true);
+		App.getSessionMap(req).put("authorizeOK", true);
 		try {
 			resp.sendRedirect(req.getContextPath() + "/goodreadsjsp/authorizeOK.jsp");
 		} catch (IOException e) {

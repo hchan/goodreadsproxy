@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Enumeration;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,6 +17,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpOptions;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.log4j.Logger;
 import org.resthub.common.util.PostInitialize;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
@@ -32,14 +35,18 @@ import ca.bcit.hchan.webapp.App;
 @Controller
 @RequestMapping("/goodreadsproxy/**")
 public class GoodreadsProxyContoller {
+	public static String RETURN_JSP = "/goodreadsjsp/goodreadsproxy.jsp";
+	public static String AUTHENTICATE_URL = "/goodreads/authenticate";
+	
+	public static Logger log = Logger.getLogger(GoodreadsProxyContoller.class);
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public void doAllGet(HttpServletRequest req, 
-	        HttpServletResponse resp) throws ClientProtocolException, IOException {
+	        HttpServletResponse resp) throws ClientProtocolException, IOException, ServletException {
 		String requestURLNormalized = req.getRequestURL().toString();
 		requestURLNormalized = requestURLNormalized.substring(requestURLNormalized.indexOf("/goodreadsproxy/"));
 		requestURLNormalized = requestURLNormalized.replace("/goodreadsproxy/", "");
-		App.log.info(requestURLNormalized);
+		log.info("requestURLNormalized:" + requestURLNormalized);
 		/*
 		HttpClient client = HttpClientBuilder.create().build();
 		String url = "http://" + req.getPathInfo().replace("/goodreadsproxy/", "");
@@ -48,21 +55,33 @@ public class GoodreadsProxyContoller {
 		}
 		*/
 		OAuthService service = App.getGoodreadsService();
-		Token requestToken = (Token) req.getSession().getAttribute("requestToken");
+		Token requestToken = (Token) App.getSessionMap(req).get("requestToken");
 		
-		if (req.getSession().getAttribute("authorizeOK") != null && requestToken != null) {
-			Token accessToken = service.getAccessToken(requestToken, new Verifier(
-					""));
+		if (App.getSessionMap(req).get("authorizeOK") != null && requestToken != null) {
+			Token accessToken = (Token) App.getSessionMap(req).get("accessToken");
+			if (accessToken == null) {
+				accessToken = service.getAccessToken(requestToken, new Verifier(""));
+				App.getSessionMap(req).put("accessToken", accessToken);
+			}
 			OAuthRequest request = new OAuthRequest(Verb.GET,
 					"http://" + requestURLNormalized); 
 			service.signRequest(accessToken, request);
 			
 			Response response = request.send();
 			
-			System.out.println(response.getBody());
-			resp.sendRedirect(req.getContextPath() + "/goodreadsjsp/goodreadsproxy.jsp");
+			req.setAttribute("oauthResponse", response.getBody());
+			RequestDispatcher dispatcher = req.getServletContext().getRequestDispatcher(RETURN_JSP);
+			dispatcher.forward(req,resp);
+			
 		} else {
-			resp.sendRedirect(req.getContextPath() + "/goodreads/authenticate");
+			String redirectURL = req.getRequestURL().toString();
+			int indexOfThirdSlash = redirectURL.indexOf("/", "http://".length());
+			redirectURL = redirectURL.substring(0, indexOfThirdSlash);
+			redirectURL +=  req.getContextPath() + AUTHENTICATE_URL;
+			log.info("redirectURL: " + redirectURL);
+			req.setAttribute("oauthResponse", "REDIRECT: " + redirectURL);
+			RequestDispatcher dispatcher = req.getServletContext().getRequestDispatcher(RETURN_JSP);
+			dispatcher.forward(req,resp);
 		}
 		
 	}

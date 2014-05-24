@@ -1,1 +1,2 @@
-YoYo
+<%=request.getAttribute("oauthResponse")
+%>
